@@ -7,7 +7,7 @@
     <div class="tool">
       <div class="addSystem" @click="addParaType()">
         <img src="src/images/warning/xtgl_btn_tj.png"/>
-        添加参加类型
+        添加参数类型
       </div>
     </div>
 
@@ -80,7 +80,7 @@
     },
     methods: {
         init(){
-          var url =  '/api/v1/alert/record';
+          var url =  '/alarm/alert/record';
           this.$http.post(url,this.postData).then(res => {
             this.resource = res.body.obj;
           },res => {

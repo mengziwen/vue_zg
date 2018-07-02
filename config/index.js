@@ -1,26 +1,121 @@
 'use strict'
 // Template version: 1.2.3
 // see http://vuejs-templates.github.io/webpack for documentation.
-
+var host=process.env.ZGIOT_SERVER || "192.168.5.33:30040";
 const path = require('path')
-
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/api/v1': {
+        target: "http://" + host+ "/appServer/api/v1",
+        // target: "http://" + host+ "/appAlert",
+        // target: "http://192.168.9.34:9090/app-server/api/v1",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api/v1': ''
+        },
+        logLevel:"info",
+        logProvider:function logProvider(provider) {
+          // replace the default console log provider.
+          var winston=require('winston');
+          var logger = new winston.Logger({
+            level: 'info',
+            transports: [
+              new (winston.transports.Console)(),               //console.log
+              new (winston.transports.File)({ filename: 'somefile.log' })      //写日志文件
+            ]
+          });
+          var myCustomProvider = {
+            log: logger.log,
+            debug: logger.debug,
+            info: logger.info,
+            warn: logger.warn,
+            error: logger.error
+          }
+          return myCustomProvider;
+        }
+      },
+      '/api/thing': {
+        target: "http://" + host+ "/appThing",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api/thing': ''
+        }
+      },
       '/api': {
-        target: 'http://192.168.9.198:9090/app-server',
+        target: "http://" + (process.env.ZGIOT_SERVER != null ? host+ '/cloudServer' : host+"/cloudServer"),
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
         }
-      }
+      },
+      '/monitor': {
+        target: "http://" + (process.env.ZGIOT_SERVER != null ? host+ '/appMonitor':"/appMonitor"),
+        changeOrigin: true,
+        pathRewrite: {
+          '^/monitor': ""
+        }
+      },
+      '/task': {
+        target: "http://" + (process.env.ZGIOT_SERVER != null ? host+ "/cloudServer" : host+"/cloudServer/v1") + "/sftask",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/task': ""
+        }
+      },
+      '/startStop': {
+        // target: "http://" + (process.env.ZGIOT_SERVER != null ? host+ '/startStopService' : host+"/startStopService"),
+        target: "http://" + host+ "/startStopService",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/startStop': ""
+        }
+      },
+      '/sfstop': {
+        // target: "http://192.168.9.22:9090/app-server/api/v1/sfstopconfig",
+        target: "http://" + host+ "/appServer/api/v1/sfstopconfig",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/sfstop': ""
+        }
+      },
+      '/test': {
+        // target: process.env.ZGIOT_SERVER + '/authService' || 'http://192.168.5.33:30040/authService/',
+        target: "http://192.168.9.94:30050/cloudServer/v1/sftask",
+        // target: "http://192.168.5.24:30040/startStopService",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/test': ""
+        }
+      },
+      '/subscription': {
+        target: "http://" + host+"/cloudServer/sfsubsc",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/subscription': ""
+        }
+      },
+      '/keyControl': {
+        // target: "http://192.168.9.34:9090/app-server/v1",
+        target: "http://"+host+"/appServer/v1",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/keyControl': ""
+        }
+      },
+      '/alarm': {
+        target: "http://" + host+ "/appAlert",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/alarm': ''
+        }
+      },
+
     },
     // Various Dev Server settings
-    // host: '192.168.9.33', // can be overwritten by process.env.HOST
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8088, // can be overwritten by process.env.HOST, if port is in use, a free one will be determined
     autoOpenBrowser: false,
@@ -35,11 +130,9 @@ module.exports = {
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
     showEslintErrorsInOverlay: false,
-
     /**
      * Source Maps
      */
-
     // https://webpack.js.org/configuration/devtool/#development
     devtool: 'eval-source-map',
 
@@ -58,17 +151,14 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
-
+    index: path.resolve(__dirname, '../dist/views/index.html'),
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '../dist/views'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-
     /**
      * Source Maps
      */
-
     productionSourceMap: true,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',

@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 $defaultColor:#2c9ae8;
 $left:26px;
 @mixin set-border($color,$width:1px,$style:solid){
@@ -43,6 +45,35 @@ $left:26px;
   height: 0!important;
   clear: both;
 }
+
+//menu Style
+.menuTitle{
+  .title{
+    div>span{
+      a{
+        display: block;
+        height:34px;
+        font-size: 14px;
+        padding-right: 10px;
+        width: auto;
+        &:hover{
+          color: $defaultColor;
+        }
+      }
+      .router-link-active{
+        width:calc(100% + 11px);
+        //background: url(/src/images/warning/triangle2.png) no-repeat 150px 14px;
+        background-color: white;
+        @include set-border($defaultColor,1px);
+        padding-right: 9px;
+        border-right:1px solid #fff!important;
+        z-index: 10;
+        position: relative;
+      }
+    }
+  }
+}
+
 .btn-hover {
   position: relative;
   overflow: hidden;
@@ -97,21 +128,6 @@ $left:26px;
   line-height: 57px;
   text-align: center;
 }
-.titleLeft{
-  width: 30px;
-  height: 30px;
-  background-color: #e5e5e5;
-  cursor: pointer;
-  margin-top: 15px!important;
-  float: right;
-  position: absolute;
-  right:0;
-}
-.titleLeft img{
-  display: block;
-  position: absolute;
-  left: -15px;
-}
 .bodyTitle{
   width: 394px;
   height: 33px;
@@ -125,16 +141,6 @@ $left:26px;
   width: 33px;
   height: 33px;
 }
-.hitchDevice{
-  font-size: 16px;
-  color: #333333;
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-.deviceNum,.deviceName{
-  float: left;
-  margin-right: 20px;
-}
 .modal-footer{
   .btn-default{
     width: 48%;
@@ -144,96 +150,230 @@ $left:26px;
     border: 0;
   }
 }
-.schedule{
-  width:174px;
-  height: 30px;
-  position: relative;
-  top: 13px;
-  left: 628px;
-  margin-bottom: 26px;
-  @include set-border($defaultColor);
-  border-radius: 4px;
-  .phase{
-    border:0 !important;
-    font-size: 16px;
-    float: left;
-    height:28px;
-    color: #2c9ae8;
-    padding: 0;
-    width: 86px;
-    margin: 0;
-    border-right:0;
-    @include set-center(28px);
-    &:hover{
-      background-color: #fff!important;
-      color:#2c9ae8;
-      text-shadow:1px 1px 1px #2c9ae8 ;
+
+
+//table
+.ivu-table{
+  thead{
+    tr>th{
+      background-color: $defaultColor;
+      color: #fff;
+      text-align: center;
     }
   }
-  .phaseOne{
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+  tr.ivu-table-row-hover td .ivu-btn{
+    background-color: #ebf7ff !important;
   }
-  .phaseTwo{
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+  .ivu-table-cell{
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 !important;;
   }
-  .active{
-    border:0;
-    color: #fff!important;
-    background-color: $defaultColor!important;
-    cursor: default;
-    &:hover{
-      @extend .active;
+  .ivu-checkbox{
+    width:16px;
+    height:16px;
+    border-radius: 100%;
+    background-color: #fff;
+    @include set-border($defaultColor);
+    .ivu-checkbox-inner{
+      border-radius: 100%;
+      width:12px;
+      height:12px;
+      top:1px;
+      &:after{
+        transform: rotate(0) scale(0) !important;
+        background-color: $defaultColor!important;
+      }
+    }
+  }
+
+  tbody tr:hover {
+    -webkit-transform: scale3d(1,1,1);
+    transform: scale3d(1,1,1);
+  }
+}
+//错误提示
+.is-danger{
+  color: red;
+  font-size: 14px;
+  padding-top:5px;
+  vertical-align: bottom;
+}
+.is-danger.errorTip{
+  position: absolute;
+  width:256px;
+}
+//toast
+.ivu-message{
+  bottom: 500px;
+  top: unset !important;
+  .ivu-message-notice{
+    .ivu-message-notice-content{
+      background: rgba(0,0,0,0.4);
+      @include set-radius(20px);
+      color: #fff;
     }
   }
 }
-.schPanel{
-  position: relative;
-  margin: 10px;
-  height:calc(100% - 20px);
-  @include set-border($defaultColor);
-  .nav-tabs{
-    width:174px;
-    height: 30px;
+//按钮样式
+.operate{
+  margin: 0 9px;
+  width:auto;
+  padding:0 10px;
+  height:24px;
+  cursor: pointer;
+  @include set-center(24px);
+  @include set-radius(24px);
+  color: #fff;
+  background-color: $defaultColor;
+  img{
     position: relative;
-    top: 13px;
-    left: 621px;
-    margin-bottom: 26px;
-    @include set-border($defaultColor);
-    border-radius: 4px;
-    li
-    {
+    top: 3px;
+  }
+  span{
+    position: relative;
+    top: -2px;
+  }
+  &:last-child{
+    margin-right: 0;
+  }
+}
+
+//弹窗
+.ivu-modal {
+  .ivu-modal-header {
+    .titleLeft{
+      width: 30px;
+      height: 30px;
+      background-color: #e5e5e5;
+      cursor: pointer;
+      margin-top: 11px!important;
+      float: right;
+      position: absolute;
+      right:0;
+    }
+    .titleLeft img{
+      display: block;
+      position: absolute;
+      left: -15px;
+    }
+    border-top: 4px solid $defaultColor;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0;
+    p {
+      color: #333;
+      font-weight: normal;
+      height:57px;
+      line-height:57px;
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+}
+
+//element的menu
+.el-menu.el-menu-vertical-demo{
+  height:100%;
+  background:#white;
+  .el-menu{
+    background:#white;
+  }
+  >.el-submenu{
+    background: $defaultColor;
+
+    .el-menu-item.is-active{
+      font-family:element-icons;
+      border-left:3px solid $defaultColor ;
       a{
-        border:0 !important;
+        color: $defaultColor
+
+      }
+    }
+    //一级菜单标题
+    >.el-submenu__title{
+      color: white;
+      font-size: 16px;
+      &:hover{
+        background: $defaultColor;
+      }
+      i{
+        color: white;
+      }
+    }
+    >.el-menu--inline{
+      //二级菜单
+      >.el-submenu{
+        >.el-submenu__title{
+          font-size: 16px;
+          padding-left: 55px!important;
+        }
+        >.el-menu--inline{
+          background: white;
+          >.el-menu-item{
+            padding-left: 65px!important;
+            color: #909399;
+          }
+        }
+      }
+      >.el-menu-item{
         font-size: 16px;
-        display: inline-block;
-        height:28px;
-        color: #2c9ae8;
-        padding: 0;
-        width: 86px;
-        margin: 0;
-        border-right:0;
-        @include set-center(28px);
+        padding-left: 55px!important;
+      }
+    }
+  }
+  >.el-menu-item{
+    background: $defaultColor;
+    color: white;
+    font-size: 16px;
+    i{
+      color: white;
+    }
+  }
+}
+
+//页码样式
+.field{
+  position: relative;
+
+}
+//loading 样式代码
+.demo-spin-icon-load{
+  animation: ani-demo-spin 1s linear infinite;
+}
+@keyframes ani-demo-spin {
+  from { transform: rotate(0deg);}
+  50%  { transform: rotate(180deg);}
+  to   { transform: rotate(360deg);}
+}
+nav{
+  position: absolute;
+  bottom:80px;
+  left:calc(50% - 60px);
+  border:1px solid #e0e0e0;
+  ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    li{
+      height:34px;
+      list-style: none;
+      @include set-center(34px);
+      width:42px;
+      a{
+        color: $defaultColor;
+        font-size: 16px;
         &:hover{
-          background-color: #fff!important;
-          color:#2c9ae8;
-          text-shadow:1px 1px 1px #2c9ae8 ;
+          color: #0055b3;
+          background-color: #eeeeee;
+          border-color: #dddddd;
         }
       }
     }
-    li.active{
-      border:0;
-      a{
-        border:0;
-        border-radius:0;
-        color: #fff!important;
-        background-color: $defaultColor!important;
-        cursor: default;
-      }
-      &:focus{
-        @extend a;
-      }
-    }
   }
 }
+
+
+
+
